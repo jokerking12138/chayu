@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <base href="/chayu/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="description" content="茶愉 —— 识茶、候汤、静饮。内置 332 款茶品的茶事手册，含冲泡计时与茶记。">
+
+  <!-- iOS 添加到主屏幕 -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="茶愉">
+  <link rel="apple-touch-icon" href="icons/Icon-180.png">
+
+  <!-- 主题色：米纸底，随深浅色切换 -->
+  <meta name="theme-color" content="#F6F1E7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#26251F" media="(prefers-color-scheme: dark)">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <title>茶愉</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #F6F1E7;
+      overscroll-behavior: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #boot {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      background-color: #F6F1E7;
+      color: #41594A;
+      font-family: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+      transition: opacity .45s ease;
+      z-index: 9;
+    }
+    #boot .seal {
+      width: 62px;
+      height: 62px;
+      border: 1.5px solid #41594A;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+    #boot .label {
+      font-size: 13px;
+      letter-spacing: 6px;
+      opacity: .72;
+    }
+    #boot .hint {
+      font-size: 11.5px;
+      letter-spacing: 1px;
+      opacity: .5;
+      font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    #boot.hide { opacity: 0; pointer-events: none; }
+    @media (prefers-color-scheme: dark) {
+      html, body, #boot { background-color: #26251F; }
+      #boot { color: #E3DAC9; }
+      #boot .seal { border-color: #E3DAC9; }
+    }
+  </style>
+</head>
+<body>
+  <div id="boot">
+    <div class="seal">茶</div>
+    <div class="label">茶 愉</div>
+    <div class="hint">水已沸，心渐静</div>
+  </div>
+
+  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    // 注册离线缓存（PWA）。开发用 file:// 或非 https 时浏览器会跳过，属正常。
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () {});
+      });
+    }
+
+    // 首帧渲染后淡出启动页；8 秒兜底，避免一直挂着
+    (function () {
+      var boot = document.getElementById('boot');
+      function hide() {
+        if (!boot || boot.classList.contains('hide')) return;
+        boot.classList.add('hide');
+        setTimeout(function () { if (boot.parentNode) boot.parentNode.removeChild(boot); }, 600);
+      }
+      window.addEventListener('flutter-first-frame', hide);
+      setTimeout(hide, 8000);
+    })();
+  </script>
+</body>
+</html>

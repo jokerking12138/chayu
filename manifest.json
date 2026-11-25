@@ -1,0 +1,22 @@
+{
+  "name": "茶愉 · 茶事手册",
+  "short_name": "茶愉",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#F6F1E7",
+  "theme_color": "#F6F1E7",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "description": "识茶、候汤、静饮。内置 332 款茶品的茶事手册，含冲泡计时与茶记。",
+  "categories": ["lifestyle", "food", "reference"],
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "icons/Icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/Icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/Icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/Icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
