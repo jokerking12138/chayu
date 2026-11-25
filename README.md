@@ -68,8 +68,19 @@ flutter build web --release --base-href /chayu/ --no-web-resources-cdn
 `--no-web-resources-cdn` 让 CanvasKit 走同源 `canvaskit/` 目录而非 Google CDN，墙内可用。
 本地预览：把 `build/web` 放到任意静态服务器的 `/chayu/` 路径下访问。
 
-部署：推送到 `main` 分支后，`.github/workflows/pages.yml` 自动构建并发布到 GitHub Pages。
-首次使用需在仓库 Settings → Pages 把 Source 设为 **GitHub Actions**。
+部署（当前采用的方式，不依赖 Actions）：
+
+```bash
+bash tool/deploy_web.sh
+```
+
+脚本会构建 Web 产物、剔除 `*.js.symbols` 与 Flutter 自带 SW、改写 `sw.js` 的缓存版本号、补 `.nojekyll`，
+再克隆 `gh-pages` 分支覆盖产物并**普通推送**（不使用强制推送）。
+仓库 Settings → Pages 的 Source 指向 **gh-pages / (root)** 即可自动发布。
+
+若要改用 GitHub Actions 部署，把 `tool/pages.workflow.yml` 复制到 `.github/workflows/pages.yml`
+（推送需要 token 具备 `workflow` scope，本地 `gh auth refresh -h github.com -s workflow` 可补），
+再把 Settings → Pages 的 Source 切到 **GitHub Actions**。两条路径不必同时启用。
 
 `web/flutter_bootstrap.js` 是自定义启动脚本，作用是**不注册** Flutter 自带的 `flutter_service_worker.js`
 （该文件已弃用且会自我注销，会顶掉 `web/sw.js`），离线缓存统一由 `web/sw.js` 接管。
